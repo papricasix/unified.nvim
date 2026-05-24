@@ -11,6 +11,8 @@ M.defaults = {
     add = "DiffAdd",
     delete = "DiffDelete",
     change = "DiffChange",
+    add_text = "DiffText",
+    delete_text = "DiffText",
   },
   line_symbols = {
     add = "+",
@@ -44,6 +46,8 @@ function M.setup(opts)
   vim.cmd("highlight default link UnifiedDiffAdd " .. M.values.highlights.add)
   vim.cmd("highlight default link UnifiedDiffDelete " .. M.values.highlights.delete)
   vim.cmd("highlight default link UnifiedDiffChange " .. M.values.highlights.change)
+  vim.cmd("highlight default link UnifiedDiffAddText " .. M.values.highlights.add_text)
+  vim.cmd("highlight default link UnifiedDiffDeleteText " .. M.values.highlights.delete_text)
 
   -- Initialize namespace
   M.ns_id = vim.api.nvim_create_namespace("unified_diff")

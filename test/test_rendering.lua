@@ -43,7 +43,7 @@ function M.test_no_plus_signs_in_buffer()
   for _, mark in ipairs(extmarks) do
     local details = mark[4]
     -- Check if the extmark has the 'UnifiedDiffAdd' highlight group (indicating an added line)
-    if details.line_hl_group == "UnifiedDiffAdd" then
+    if details.hl_group == "UnifiedDiffAdd" then
       -- Check if it has the correct sign_text
       if details.sign_text == expected_sign_text then
         found_added_line_sign = true
@@ -545,7 +545,7 @@ function M.test_new_file_shows_all_lines_added()
   local added_lines_count = 0
   for _, mark in ipairs(extmarks) do
     local details = mark[4]
-    if details.line_hl_group == "UnifiedDiffAdd" then
+    if details.hl_group == "UnifiedDiffAdd" then
       added_lines_count = added_lines_count + 1
     end
   end

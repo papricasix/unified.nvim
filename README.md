@@ -4,9 +4,12 @@ A Neovim plugin for displaying inline unified diffs directly in your buffer.
 
 <img width="1840" alt="image" src="https://github.com/user-attachments/assets/7655659e-c8af-40c5-ad70-59f67a2b16d9" />
 
+> This is a fork of [axkirillov/unified.nvim](https://github.com/axkirillov/unified.nvim). All credit for the original design and implementation goes to the upstream author and contributors, thank you. This fork carries small additions (intra-line highlighting, embeddable diff API, optional file tree, etc.) on top of that foundation.
+
 ## Features
 
 * **Inline Diffs**: View git diffs directly in your buffer, without needing a separate window.
+* **Intra-line Highlights**: Within a changed line, only the bytes that actually differ get an extra emphasis on top of the line background.
 * **File Tree Explorer**: A file tree explorer is displayed, showing all files that have been changed.
 * **Git Gutter Signs**: Gutter signs are used to indicate added, modified, and deleted lines.
 * **Customizable**: Configure the signs, highlights, and line symbols to your liking.
@@ -27,7 +30,7 @@ You can install `unified.nvim` using your favorite plugin manager.
 
 ```lua
 {
-  'axkirillov/unified.nvim',
+  'papricasix/unified.nvim',
   opts = {
     -- your configuration comes here
   }
@@ -38,7 +41,7 @@ You can install `unified.nvim` using your favorite plugin manager.
 
 ```lua
 use {
-  'axkirillov/unified.nvim',
+  'papricasix/unified.nvim',
   config = function()
     require('unified').setup({
       -- your configuration comes here
@@ -62,6 +65,8 @@ require('unified').setup({
     add = "DiffAdd",
     delete = "DiffDelete",
     change = "DiffChange",
+    add_text = "DiffText",    -- intra-line emphasis for added bytes
+    delete_text = "DiffText", -- intra-line emphasis for deleted bytes
   },
   line_symbols = {
     add = "+",
@@ -78,7 +83,7 @@ require('unified').setup({
 })
 ```
 
-> By default `file_tree.enabled = false` — `:Unified` shows only the inline diff in the current buffer. Set `file_tree = { enabled = true }` to restore the file-tree side panel.
+> By default `file_tree.enabled = false`, so `:Unified` shows only the inline diff in the current buffer. Set `file_tree = { enabled = true }` to restore the file-tree side panel.
 
 ## Usage
 
@@ -187,7 +192,7 @@ Behavior notes:
 
 ### Embedding the inline diff (for other plugins)
 
-unified.nvim exposes a low-level primitive that renders an inline diff between a buffer's current contents and an arbitrary base string. No git, no file tree, no buffer/window management — your plugin keeps full control of those.
+unified.nvim exposes a low-level primitive that renders an inline diff between a buffer's current contents and an arbitrary base string. No git, no file tree, no buffer/window management; your plugin keeps full control of those.
 
 ```lua
 ---@param buffer integer Buffer to draw the diff marks on

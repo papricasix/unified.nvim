@@ -35,7 +35,7 @@ reference commit (e.g., HEAD).
 
 Using packer.nvim: >
 use {
-  'axkirillov/unified.nvim',
+  'papricasix/unified.nvim',
   config = function()
     require('unified').setup({
       -- Optional configuration
@@ -45,7 +45,7 @@ use {
 <
 Using lazy.nvim: >
 {
-  'axkirillov/unified.nvim',
+  'papricasix/unified.nvim',
   config = function()
     require('unified').setup({
       -- Optional configuration

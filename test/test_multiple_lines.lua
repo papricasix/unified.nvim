@@ -40,7 +40,7 @@ function M.test_multiple_added_lines()
     local row = mark[2] + 1 -- Convert to 1-indexed for consistency with buffer lines
     local details = mark[4]
     -- Check for line highlighting
-    if details.line_hl_group then
+    if details.line_hl_group or details.hl_group == "UnifiedDiffAdd" then
       highlighted_lines[row] = true
     end
   end
@@ -117,7 +117,7 @@ function M.test_multiple_added_lines_with_commit()
     local row = mark[2] + 1 -- Convert to 1-indexed
     local details = mark[4]
 
-    if details.line_hl_group then
+    if details.line_hl_group or details.hl_group == "UnifiedDiffAdd" then
       highlighted_lines[row] = true
     end
 
