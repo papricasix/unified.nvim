@@ -70,11 +70,15 @@ require('unified').setup({
   },
   auto_refresh = true, -- Whether to automatically refresh diff when buffer changes
   file_tree = {
-    width = 0.5, -- Width of the file tree window
-    filename_first = true, -- Show filename before directory path (Snacks backend only)
+    enabled = false,         -- When true, :Unified opens a left-split file tree; when false, only the inline diff renders
+    width = 30,              -- Width of the file tree window (columns, or 0-1 for relative)
+    filename_first = true,   -- Show filename before directory path (Snacks backend only)
+    auto_open_first_file = true, -- Auto-open the first changed file after :Unified
   },
 })
 ```
+
+> By default `file_tree.enabled = false` — `:Unified` shows only the inline diff in the current buffer. Set `file_tree = { enabled = true }` to restore the file-tree side panel.
 
 ## Usage
 
@@ -180,6 +184,18 @@ Behavior notes:
 - Revert: reverse-applies the hunk patch to the working tree.
 - Binary patches are skipped with a user message.
 - After an action, the inline diff and file tree are refreshed automatically.
+
+### Embedding the inline diff (for other plugins)
+
+unified.nvim exposes a low-level primitive that renders an inline diff between a buffer's current contents and an arbitrary base string. No git, no file tree, no buffer/window management — your plugin keeps full control of those.
+
+```lua
+---@param buffer integer Buffer to draw the diff marks on
+---@param base_text string Reference content to diff against
+require("unified.diff").show_against_text(buffer, base_text)
+```
+
+This powers the [claudecode.nvim](https://github.com/coder/claudecode.nvim) integration: when both plugins are installed, claudecode renders Claude-proposed file changes as a single inline-diff buffer instead of the default side-by-side vimdiff.
 
 ## Commands
 

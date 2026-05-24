@@ -25,6 +25,11 @@ function M.setup()
       local backend = global_state.get_backend()
       local commit_hash = global_state.get_commit_base()
 
+      if not require("unified.config").values.file_tree.enabled then
+        require("unified.diff").show_current(commit_hash)
+        return
+      end
+
       if backend == "snacks" then
         require("unified.file_tree.snacks").show(commit_hash)
       else

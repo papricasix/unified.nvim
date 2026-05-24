@@ -322,6 +322,45 @@ function M.show(commit, buffer_id)
   return git.show_git_diff_against_commit(commit, buffer)
 end
 
+---@param buffer integer
+---@param base_text string
+---@return boolean success
+function M.show_against_text(buffer, base_text)
+  buffer = buffer or vim.api.nvim_get_current_buf()
+  if buffer == 0 then
+    buffer = vim.api.nvim_get_current_buf()
+  end
+  if not vim.api.nvim_buf_is_valid(buffer) then
+    return false
+  end
+  if type(base_text) ~= "string" then
+    return false
+  end
+
+  local ns_id = config.ns_id
+  vim.api.nvim_buf_clear_namespace(buffer, ns_id, 0, -1)
+  vim.fn.sign_unplace("unified_diff", { buffer = buffer })
+  hunk_store.clear(buffer)
+
+  local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+  local cur_text = table.concat(lines, "\n")
+  if vim.bo[buffer].endofline then
+    cur_text = cur_text .. "\n"
+  end
+
+  if cur_text == base_text then
+    return true
+  end
+
+  local diff_output = vim.diff(base_text, cur_text, { result_type = "unified", ctxlen = 3 })
+  if type(diff_output) ~= "string" or diff_output == "" then
+    return true
+  end
+
+  local hunks = M.parse_diff(diff_output)
+  return M.display_inline_diff(buffer, hunks)
+end
+
 function M.show_current(commit)
   if not commit then
     local state = require("unified.state")

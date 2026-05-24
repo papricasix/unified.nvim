@@ -110,16 +110,10 @@ function M.reset()
     state.auto_refresh_augroup = nil
   end
 
-  local windows = vim.api.nvim_list_wins()
-  if not state.file_tree_win or not vim.api.nvim_win_is_valid(state.file_tree_win) then
-    return
+  local tree_win_valid = state.file_tree_win and vim.api.nvim_win_is_valid(state.file_tree_win)
+  if tree_win_valid and #vim.api.nvim_list_wins() > 1 then
+    vim.api.nvim_win_close(state.file_tree_win, true)
   end
-
-  if #windows == 1 then
-    return
-  end
-
-  vim.api.nvim_win_close(state.file_tree_win, true)
 
   state.file_tree_win = nil
   state.file_tree_buf = nil

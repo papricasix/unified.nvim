@@ -19,6 +19,7 @@ M.defaults = {
   },
   auto_refresh = true, -- Whether to auto-refresh diff when buffer changes
   file_tree = {
+    enabled = false, -- When true, :Unified opens a left-split file tree; when false, only inline diff renders on the current buffer
     width = 30, -- Width of the file tree window (columns, or 0-1 for relative)
     filename_first = true, -- Show filename before directory path (Snacks backend only)
     auto_open_first_file = true, -- When true, automatically open the first changed file in the main window after :Unified
