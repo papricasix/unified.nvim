@@ -200,7 +200,7 @@ unified.nvim exposes a low-level primitive that renders an inline diff between a
 require("unified.diff").show_against_text(buffer, base_text)
 ```
 
-This powers the [claudecode.nvim](https://github.com/coder/claudecode.nvim) integration: when both plugins are installed, claudecode renders Claude-proposed file changes as a single inline-diff buffer instead of the default side-by-side vimdiff.
+This powers the [claudecode.nvim](https://github.com/papricasix/claudecode.nvim) integration (fork of [coder/claudecode.nvim](https://github.com/coder/claudecode.nvim)): when both plugins are installed, claudecode renders Claude-proposed file changes as a single inline-diff buffer instead of the default side-by-side vimdiff.
 
 ## Commands
 
